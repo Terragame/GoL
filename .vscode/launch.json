@@ -8,7 +8,7 @@
             "type": "chrome",
             "request": "launch",
             "name": "Open life.html",
-            "file": "d:\\Misc\\GitHub\\GoL\\life.html"
+            "file": "d:\\Misc\\GitHub\\life\\life.html"
         }
     ]
 }
