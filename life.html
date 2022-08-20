@@ -8,13 +8,6 @@
   <link rel="stylesheet" type="text/css" href="life.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-  <style>
-    td {
-      border: 1px solid darkgray;
-      width: 22px;
-      height: 22px;
-    }
-  </style>
 </head>
 
 <body>
@@ -23,8 +16,10 @@
       <h5 class="col" id="plrnameloc"></h5>
     </div>
     <div class="row">
-      <div class="col-sm-8 bg-dark" id='world'></div>
-      <div class="col-sm-3 bg-dark text-white" style="float:left">
+      <div class="col-sm-10 bg-dark" id='world'>
+        <canvas id="myCanvas" width="100" height="100"></canvas>
+      </div>
+      <div class="col-sm-2 bg-dark text-white" style="float:left">
         <h6>Save/Load</h6>
         <ul class="list-group">
           <li class="list-group-item">
@@ -61,6 +56,7 @@
               onclick='startStopGol();' />
             <Input type='button' class="btn btn-outline-success" id='btn1turn' value='Evolve 1 turn' onclick='oneTurnGol();' />
             <Input type='button' class="btn btn-outline-danger" id='btnreset' value='Reset grid' onclick='resetWorld();' />
+            <Input type='button' class="btn btn-outline-danger" id='btnShowhide' value='Show canvas' onclick='showHide();' />
           </li>
         </ul>
       </div>

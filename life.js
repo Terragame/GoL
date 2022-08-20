@@ -2,10 +2,21 @@ let started = false;// Set to true when use clicks start
 let timer;//To control evolutions
 let evolutionSpeed = 100;
 
-const rows = 25;
-const cols = 40;
+const rows = 32;
+const cols = 64;
+var cellSize = 20;
 
 var mousedwn = false;
+var canV = document.getElementById("myCanvas");
+canV.width  = cellSize * cols;
+canV.height = cellSize * rows;
+
+var ctx = canV.getContext("2d");
+
+var canVis = false;
+
+/*let width = screen.availWidth;
+let height = screen.availHeight;*/
 
 // Need 2D arrays. These are 1D
 let currGen = [rows];
@@ -17,7 +28,7 @@ function createGenArrays() {
     for (let i = 0; i < rows; i++) {
         currGen[i] = new Array(cols);
         nextGen[i] = new Array(cols);
-//        SaveOne[i] = new Array(cols);
+        //        SaveOne[i] = new Array(cols);
     }
 }
 
@@ -26,7 +37,7 @@ function initGenArrays() {
         for (let j = 0; j < cols; j++) {
             currGen[i][j] = 0;
             nextGen[i][j] = 0;
-//            SaveOne[i][j] = 0;
+            //            SaveOne[i][j] = 0;
         }
     }
 }
@@ -60,7 +71,7 @@ function cellClick() {
     let row = Number(loc[0]);//Get i
     let col = Number(loc[1]);//Get j
 
-    function mouseD0wn(){
+    function mouseD0wn() {
         mousedwn = true;
     }
 
@@ -70,7 +81,7 @@ function cellClick() {
     if (this.className === 'alive') {
         this.setAttribute('class', 'dead');
         currGen[row][col] = 0;
-    } else if (this.className === 'dead'){
+    } else if (this.className === 'dead') {
         this.setAttribute('class', 'alive');
         currGen[row][col] = 1;
     }
@@ -151,7 +162,7 @@ function startStopGol() {
     }
 }
 
-function oneTurnGol(){
+function oneTurnGol() {
     if (!started) {
         started = true;
         evolve();
@@ -162,13 +173,61 @@ function resetWorld() {
     location.reload();
 }
 
+function fillCanvas() {
+    let row = 0;
+    let col = 0;
+    for (row in currGen) {
+        for (col in currGen[row]) {
+            //debugger;
+            ctx.beginPath();
+            ctx.rect(col * cellSize, row * cellSize, cellSize, cellSize);
+            if (currGen[row][col] == 1) {
+                ctx.fillStyle = "#00009A";
+            }
+            else {
+                ctx.fillStyle = "#FDF8B5";
+            }
+            ctx.fill();
+            ctx.closePath();
+        }
+    }
+    /*ctx.moveTo(0, 0);
+    ctx.lineTo(100, 100);
+    ctx.stroke();
+    for(i=0; i<rows; i++){
+        ctx.moveTo(0,cellSize*i);
+        ctx.lineTo(cellSize*cols,cellSize*i);
+        ctx.lineWidth = 1;
+        ctx.fillStyle = '#000000';
+        ctx.stroke();
+    }*/
+}
+
 function evolve() {
     if (started) {
         timer = setTimeout(evolve, evolutionSpeed);
         createNextGen();//Apply the rules
         updateCurrGen();//Set Current values from new generation
         updateWorld();//Update the world view
+        if (canVis) {
+            fillCanvas();
         }
+    }
+}
+
+function showHide() {
+    var x = document.getElementById("myCanvas");
+    var y = document.getElementById("worldgrid");
+    if (x.style.display === "none") {
+        x.style.display = "block";
+        y.style.display = "none";
+        canVis = true;
+        fillCanvas();
+    } else {
+        x.style.display = "none";
+        y.style.display = "block";
+        canVis = false;
+    }
 }
 
 window.onload = () => {
@@ -176,4 +235,5 @@ window.onload = () => {
     createGenArrays();// current and next generations
     initGenArrays();//Set all array locations to 0=dead
     checkCookie();
+    document.getElementById("myCanvas").style.display = "none";
 }
